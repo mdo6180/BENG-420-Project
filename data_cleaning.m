@@ -1,4 +1,4 @@
 clear
 close all
 
-file = load('diabetic_data.csv')
+file = csvread('diabetic_data.csv',1,0)
