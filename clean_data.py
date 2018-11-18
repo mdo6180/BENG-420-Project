@@ -38,12 +38,36 @@ with open('diabetic_data.csv', newline = '') as csvfile:
 			
 print(len(data))
 
+training_set = data[:1020]
+validation_set = data[1021:2040]
+test_set = data[2041:]
 
-with open('./cleaned.csv', 'w', newline = '') as myfile:
+# creating the training dataset
+with open('./train.csv', 'w', newline = '') as trainfile:
 	header = ['encounter_id', 'race', 'gender','age','weight','number_emergency','number_inpatient','diabetesMed','readmitted']
-	writer = csv.DictWriter(myfile, fieldnames = header)
+	writer = csv.DictWriter(trainfile, fieldnames = header)
 	
 	writer.writeheader()
 	
-	for i in data:
+	for i in training_set:
+		writer.writerow(i)
+
+# creating the validation dataset
+with open('./validation.csv', 'w', newline = '') as validationfile:
+	header = ['encounter_id', 'race', 'gender','age','weight','number_emergency','number_inpatient','diabetesMed','readmitted']
+	writer = csv.DictWriter(validationfile, fieldnames = header)
+	
+	writer.writeheader()
+	
+	for i in validation_set:
+		writer.writerow(i)
+		
+# creating the validation dataset
+with open('./test.csv', 'w', newline = '') as testfile:
+	header = ['encounter_id', 'race', 'gender','age','weight','number_emergency','number_inpatient','diabetesMed','readmitted']
+	writer = csv.DictWriter(testfile, fieldnames = header)
+	
+	writer.writeheader()
+	
+	for i in test_set:
 		writer.writerow(i)
