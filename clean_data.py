@@ -1,6 +1,6 @@
 import csv
 
-# fro age: 0 = '[0-10)', 1 = '[10-20)', 2 = '[20-30)', 3 = '[30-40)', 4 = '[40-50)', 5 = '[50-60)', 6 = '[60-70)', 7 = '[70-80)', 8 = '[80-90)', 9 = '[90-100)'
+# for age: 0 = '[0-10)', 1 = '[10-20)', 2 = '[20-30)', 3 = '[30-40)', 4 = '[40-50)', 5 = '[50-60)', 6 = '[60-70)', 7 = '[70-80)', 8 = '[80-90)', 9 = '[90-100)'
 # for weight: 0 = '[0-25)', 1 = '[25-50)', 2 = '[50-75)', 3 = '[75-100)', 4 = '[100-125)', 5 = '[125-150)', 6 = '[150-175)', 7 = '[175-200)', 8 = '>200'
 # for diabetesMed: 0 = 'No', 1 = 'Yes'
 # for readmitted: 0 = 'No', 1 = '<30', 2 = '>30'
@@ -38,6 +38,7 @@ with open('diabetic_data.csv', newline = '') as csvfile:
 			
 print(len(data))
 
+# splitting data up into equal parts to create the training_set, validation_set, and test_set
 training_set = data[:1020]
 validation_set = data[1021:2040]
 test_set = data[2041:]
