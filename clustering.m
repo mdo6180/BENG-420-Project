@@ -2,38 +2,37 @@ clear
 close all
 
 training_set = csvread('train.csv',1,1);
-%validation_set = csvread('validation.csv',1,0);
-%test_set = csvread('test.csv',1,0);
+size_train = size(training_set);
+training_set = training_set(:, 1:end-1);
+%validation_set = csvread('validation.csv',1,1);
+%test_set = csvread('test.csv',1,1);
 
-points = [0 0;
-          0 1;
-          .5 .5;
-          5 0;
-          5.5 .5;
-          6 0;
-          3 5;
-          3 6;
-          3.5 5.5];
+% % implementing k-means clustering for k = 6
+[idx,C] = kmeans(training_set,6);
 
-% % implementing k-means clustering for k = 3
-% ci = [randi([0 8], 3, 1) randi([0 8], 3, 1)];       % initial centroids
-% movement = [];
-% 
-% % cluster assignment step
-% a = knnsearch(ci,points, 'IncludeTies',true,'Distance','Euclidean');
-% a = cell2mat(a);
-% closest = ci(a,:);
+% organize dataset into 6 homogenous groups
+combine = [idx training_set];
 
-[idx,C] = kmeans(training_set,10)
+ind1 = combine(:,1) == 1;   % defining group 1
+group1 = combine(ind1,:);
+group1 = group1(:, 2:end);
 
-% for i = 1:100
-%     current = ci;
-%     
-%     
-% end
+ind2 = combine(:,1) == 2;   % defining group 2
+group2 = combine(ind2,:);
+group2 = group2(:, 2:end);
 
-figure;
-scatter(points(:,1), points(:,2))
-hold on 
-%scatter(ci(:,1), ci(:,2), 'r+')
-scatter(C(:,1), C(:,2), 'r+')
+ind3 = combine(:,1) == 3;   % defining group 3
+group3 = combine(ind3,:);
+group3 = group3(:, 2:end);
+
+ind4 = combine(:,1) == 4;   % defining group 4
+group4 = combine(ind4,:);
+group4 = group4(:, 2:end);
+
+ind5 = combine(:,1) == 5;   % defining group 5
+group5 = combine(ind5,:);
+group5 = group5(:, 2:end);
+
+ind6 = combine(:,1) == 6;   % defining group 6
+group6 = combine(ind6,:);
+group6 = group6(:, 2:end);
