@@ -1,21 +1,20 @@
 clear
 close all
 
-training_set = csvread('train.csv',1,1);
-size_train = size(training_set);
-training_set = training_set(:, 1:end-1);
+training_set = csvread('train.csv',1,1);    % read file and remove first row (labels) and first column (encounter_id)
+training_set = training_set(:, 1:end-1);    % remove last column ('readmitted'), values in last column are class labels 
 %validation_set = csvread('validation.csv',1,1);
 %test_set = csvread('test.csv',1,1);
 
-% % implementing k-means clustering for k = 6
-[idx,C] = kmeans(training_set,6);
+% % implementing k-means clustering for k = 4
+[idx,C] = kmeans(training_set,4);
 
 % organize dataset into 6 homogenous groups
-combine = [idx training_set];
+combine = [idx training_set];   % map index values (idx) to corresponding training set values
 
-ind1 = combine(:,1) == 1;   % defining group 1
-group1 = combine(ind1,:);
-group1 = group1(:, 2:end);
+ind1 = combine(:,1) == 1;   % defining group 1, ind1 are boolean values used to determine which training set values belong to cluster C1
+group1 = combine(ind1,:);   % extracting training set values that belong to cluster C1
+group1 = group1(:, 2:end);  % removing first column (ind1)
 
 ind2 = combine(:,1) == 2;   % defining group 2
 group2 = combine(ind2,:);
@@ -29,10 +28,7 @@ ind4 = combine(:,1) == 4;   % defining group 4
 group4 = combine(ind4,:);
 group4 = group4(:, 2:end);
 
-ind5 = combine(:,1) == 5;   % defining group 5
-group5 = combine(ind5,:);
-group5 = group5(:, 2:end);
-
-ind6 = combine(:,1) == 6;   % defining group 6
-group6 = combine(ind6,:);
-group6 = group6(:, 2:end);
+disp(size(group1))
+disp(size(group2))
+disp(size(group3))
+disp(size(group4))
