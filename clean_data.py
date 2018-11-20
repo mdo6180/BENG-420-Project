@@ -31,8 +31,9 @@ with open('diabetic_data.csv', newline = '') as csvfile:
 	reader = csv.DictReader(csvfile)
 	
 	for row in reader:
-		if rename(row) != None:
-			data.append(rename(row))
+		data.append(row)
+		# if rename(row) != None:
+			# data.append(rename(row))
 			
 print("size of dataset = %d" % len(data))
 
@@ -50,7 +51,7 @@ print("size of training set = %d" % len(training_set))
 print("size of validation set = %d" % len(validation_set))
 print("size of test set = %d" % len(test_set))
 
-
+'''
 # creating the training dataset
 with open('./cleaned.csv', 'w', newline = '') as trainfile:
 	header = ['encounter_id','race','gender','age','number_emergency','number_inpatient','diabetesMed','readmitted']
@@ -90,3 +91,4 @@ with open('./test.csv', 'w', newline = '') as testfile:
 	
 	for i in test_set:
 		writer.writerow(i)
+'''
