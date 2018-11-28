@@ -20,22 +20,20 @@ training_set = training_set(:, 1:end-1);    % remove last column ('readmitted'),
 
 % implementing k-means clustering for <30 days hospital readmittance
 %[idx,C] = kmeans(under30,5,'Distance','sqeuclidean','Display','final','Replicates',100);
-[idx,C_under30] = kmeans(under30,2);
-[idx1,C_over30] = kmeans(over30,4);
-[idx2,C_not] = kmeans(not_readmitted,7);
+[idx,C_under30] = kmeans(under30,8);
+[idx1,C_over30] = kmeans(over30,5);
+[idx2,C_not] = kmeans(not_readmitted,5);
 
 % silhouette plot
-current_test = not_readmitted;
-index = idx2;
 figure(1)
-[silh,h] = silhouette(current_test,index,'sqEuclidean');
+[silh,h] = silhouette(under30,idx,'sqEu');
 h = gca;
 h.Children.EdgeColor = [.8 .8 1];
 xlabel 'Silhouette Value'
 ylabel 'Cluster'
 title('<30 Days Readmittance Silhouette Plot')
 
-X = current_test;
+X = under30;
 Y = pdist(X);
 Z = linkage(Y,'average');
 
