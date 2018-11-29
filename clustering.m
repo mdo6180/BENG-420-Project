@@ -4,7 +4,7 @@ close all
 training_set = csvread('train.csv',1,1);    % read file and remove first row (labels) and first column (encounter_id)
 full_matrix = training_set;
 %t = [(full_matrix(1:10,end) == 0) (full_matrix(1:10,end) == 2) (full_matrix(1:10,end) == 3) (full_matrix(1:10,end) == 4)];
-%features_labels = training_set(1,:);
+features_labels = training_set(:,end);
 
 not_readmitted_idx = full_matrix(:,end) == 0;
 under30_idx = full_matrix(:,end) == 1;
@@ -24,31 +24,55 @@ training_set = training_set(:, 1:end-1);    % remove last column ('readmitted'),
 [idx1,C_over30] = kmeans(over30,4);
 [idx2,C_not] = kmeans(not_readmitted,7);
 
+C_not_readmitted = [C_not zeros(size(C_not,1), 1)];
+C_under30days = [C_under30 ones(size(C_under30,1), 1)];
+
+ax = zeros(size(C_over30,1), 1);
+ax(:) = 2;
+
+C_over30days = [C_over30 ax];
+
+downsample = [C_not_readmitted; C_under30days; C_over30days];
+downsample_features = downsample(:, 1:end-1);
+downsample_labels = downsample(:, end);
+
+mdl = fitcknn(downsample_features, downsample_labels);
+prediction_labels = predict(mdl,training_set);
+
+num_correct = 0;
+for i = 1:length(prediction_labels)
+    if prediction_labels(i) == features_labels(i)
+        num_correct = num_correct + 1;
+    end
+end
+
+training_accuracy = (num_correct/size(features_labels,1))*100
 % silhouette plot
-current_test = not_readmitted;
-index = idx2;
-figure(1)
-[silh,h] = silhouette(current_test,index,'sqEuclidean');
-h = gca;
-h.Children.EdgeColor = [.8 .8 1];
-xlabel 'Silhouette Value'
-ylabel 'Cluster'
-title('<30 Days Readmittance Silhouette Plot')
+% current_test = not_readmitted;
+% index = idx2;
+% figure(1)
+% [silh,h] = silhouette(current_test,index,'sqEuclidean');
+% h = gca;
+% h.Children.EdgeColor = [.8 .8 1];
+% xlabel 'Silhouette Value'
+% ylabel 'Cluster'
+% title('<30 Days Readmittance Silhouette Plot')
 
-X = current_test;
-Y = pdist(X);
-Z = linkage(Y,'average');
+% X = current_test;
+% Y = pdist(X);
+% Z = linkage(Y,'average');
+% 
+% figure(2)
+% dendrogram(Z)
+% xlabel('Groups')
+% ylabel('Link Distance')
+% title('<30 Days Readmittance Dendrogram')
+% 
+% c = cophenet(Z,Y)
+% T = clusterdata(Z, 'maxclust', 5);
+% 
+% disp(mean(silh))
 
-figure(2)
-dendrogram(Z)
-xlabel('Groups')
-ylabel('Link Distance')
-title('<30 Days Readmittance Dendrogram')
-
-c = cophenet(Z,Y)
-T = clusterdata(Z, 'maxclust', 5);
-
-disp(mean(silh))
 % organize dataset into 6 homogenous groups
 % combine = [idx training_set];   % map index values (idx) to corresponding training set values
 % 
