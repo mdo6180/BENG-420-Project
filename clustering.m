@@ -5,7 +5,7 @@ training_set = csvread('train.csv',1,1);    % read file and remove first row (la
 training_class_labels = training_set(:,end);
 training_features = training_set(:,1:end-1);
 
-mdl = fitcknn(training_features, training_class_labels,'NumNeighbors',1);
+mdl = fitcknn(training_features, training_class_labels,'NumNeighbors',15);
 
 % predicting validation set -----------------------------------------------
 
