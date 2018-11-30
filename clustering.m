@@ -10,28 +10,43 @@ mdl = fitcknn(training_features, training_class_labels,'NumNeighbors',1);
 % predicting validation set -----------------------------------------------
 
 validation_set = csvread('validation.csv',1,1);
-val_class_labels = validation_set(:,end);
-val_features = validation_set(:,1:end-1);
+validation_class_labels = validation_set(:,end);
+validation_features = validation_set(:,1:end-1);
 
-predict_valid = predict(mdl, val_features);
+predict_valid = predict(mdl, validation_features);
 
-num_correct_val = 0;
+num_correct_validation = 0;
+true_positive_validation = 0;
+true_negative_validation = 0;
+false_positive_validation = 0;
+false_negative_validation = 0;
 for i = 1:length(predict_valid)
-    if val_class_labels(i) == predict_valid(i)
-        num_correct_val = num_correct_val + 1;
+    if validation_class_labels(i) == predict_valid(i)
+        num_correct_validation = num_correct_validation + 1;
+        
+        if predict_valid(i) == 1
+            true_positive_validation = true_positive_validation + 1;
+        else
+            true_negative_validation = true_negative_validation + 1;
+        end  
+    else
+        if (validation_class_labels(i) == 0) && (predict_valid(i) == 1)
+            false_positive_validation = false_positive_validation + 1;
+        else
+            false_negative_validation = false_negative_validation + 1;
+        end
     end
+    
 end
 
 % validation accuracy = 88.6176%
-validation_accuracy = (num_correct_val/length(val_class_labels))*100  
+validation_accuracy = (num_correct_validation/length(validation_class_labels))*100  
 
-num_positive_valid = sum(predict_valid(:) == 1);
-true_positive_validation = sum(val_class_labels(:) == 1);
-sensitivity_validation = true_positive_validation/num_positive_valid
+num_positive_validation = sum(validation_class_labels(:) == 1);
+sensitivity_validation = true_positive_validation/(num_positive_validation)
 
-num_negative_valid = sum(predict_valid(:) == 0);
-true_negative_validation = sum(val_class_labels(:) == 0);
-specificity_validation = true_negative_validation/num_negative_valid
+num_negative_validation = sum(validation_class_labels(:) == 0);
+specificity_validation = true_negative_validation/(num_negative_validation)
 
 % predicting test set -----------------------------------------------------
 
@@ -42,16 +57,37 @@ test_features = test_set(:,1:end-1);
 predict_test = predict(mdl, test_features);
 
 num_correct_test = 0;
+true_positive_test = 0;
+true_negative_test = 0;
+false_positive_test = 0;
+false_negative_test = 0;
 for i = 1:length(predict_test)
     if test_class_labels(i) == predict_test(i)
         num_correct_test = num_correct_test + 1;
+        
+        if predict_test(i) == 1
+            true_positive_test = true_positive_test + 1;
+        else
+            true_negative_test = true_negative_test + 1;
+        end   
+    else
+        if (test_class_labels(i) == 0) && (predict_test(i) == 1)
+            false_positive_test = false_positive_test + 1;
+        else
+            false_negative_test = false_negative_test + 1;
+        end
     end
+    
 end
 
-% testing_accuracy = 89.1271%
-testing_accuracy = (num_correct_test/length(test_features))*100  % validation accuracy = 73.1735%
+% test accuracy = 88.6176%
+test_accuracy = (num_correct_test/length(test_class_labels))*100  
 
-true_positive_test = sum(test_class_labels(:) == 1);
+num_positive_test = sum(test_class_labels(:) == 1);
+sensitivity_test = true_positive_test/(num_positive_test)
+
+num_negative_test = sum(test_class_labels(:) == 0);
+specificity_test = true_negative_test/(num_negative_test)
 
 % i was trying something new so i split the training set into groups
 % according to the class labels
