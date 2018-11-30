@@ -1,15 +1,9 @@
 import csv
 import math
 
-# age: 0 = '[0-10)', 1 = '[10-20)', 2 = '[20-30)', 3 = '[30-40)', 4 = '[40-50)', 5 = '[50-60)', 6 = '[60-70)', 7 = '[70-80)', 8 = '[80-90)', 9 = '[90-100)'
-# gender: 0 = 'Male', 1 = 'Female', 3 = 'Unknown/Invalid'
-# race: 0 = 'Caucasian', 1 = 'Asian', 2 = 'AfricanAmerican', 3 = 'Hispanic', 4 = 'Other'
-# diabetesMed: 0 = 'No', 1 = 'Yes'
-# readmitted: 0 = 'No', 1 = '<30', 2 = '>30'
-
-# race, gender, age, number_emergency, number_inpatient, diabetesMed are the features
-# readmitted is the class labels
-# I removed encounter_id before trying to process the data in MATLAB, for now I am just including it just to check if the dataset has been written into the file correctly 
+# for age: 0 = '[0-10)', 1 = '[10-20)', 2 = '[20-30)', 3 = '[30-40)', 4 = '[40-50)', 5 = '[50-60)', 6 = '[60-70)', 7 = '[70-80)', 8 = '[80-90)', 9 = '[90-100)'
+# for diabetesMed: 0 = 'No', 1 = 'Yes'
+# for readmitted: 0 = 'No', 1 = '<30', 2 = '>30'
 
 race = ['Caucasian', 'Asian', 'AfricanAmerican', 'Hispanic', 'Other']
 gender = ['Male','Female','Unknown/Invalid']
@@ -37,9 +31,8 @@ with open('diabetic_data.csv', newline = '') as csvfile:
 	reader = csv.DictReader(csvfile)
 	
 	for row in reader:
-		data.append(row)
-		# if rename(row) != None:
-			# data.append(rename(row))
+		if rename(row) != None:
+			data.append(rename(row))
 			
 print("size of dataset = %d" % len(data))
 
@@ -57,8 +50,8 @@ print("size of training set = %d" % len(training_set))
 print("size of validation set = %d" % len(validation_set))
 print("size of test set = %d" % len(test_set))
 
-'''
-# creating the training dataset
+
+# creating the cleaned dataset
 with open('./cleaned.csv', 'w', newline = '') as trainfile:
 	header = ['encounter_id','race','gender','age','number_emergency','number_inpatient','diabetesMed','readmitted']
 	writer = csv.DictWriter(trainfile, fieldnames = header)
@@ -88,7 +81,7 @@ with open('./validation.csv', 'w', newline = '') as validationfile:
 	for i in validation_set:
 		writer.writerow(i)
 		
-# creating the validation dataset
+# creating the test dataset
 with open('./test.csv', 'w', newline = '') as testfile:
 	header = ['encounter_id','race','gender','age','number_emergency','number_inpatient','diabetesMed','readmitted']
 	writer = csv.DictWriter(testfile, fieldnames = header)
@@ -97,4 +90,3 @@ with open('./test.csv', 'w', newline = '') as testfile:
 	
 	for i in test_set:
 		writer.writerow(i)
-'''

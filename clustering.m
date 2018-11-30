@@ -5,13 +5,14 @@ training_set = csvread('train.csv',1,1);    % read file and remove first row (la
 training_class_labels = training_set(:,end);
 training_features = training_set(:,1:end-1);
 
+mdl = fitcknn(training_features, training_class_labels,'NumNeighbors',1);
+
+% predicting validation set -----------------------------------------------
+
 validation_set = csvread('validation.csv',1,1);
 val_class_labels = validation_set(:,end);
-over30_val = val_class_labels(:) == 2;
-val_class_labels(over30_val) = 0;
 val_features = validation_set(:,1:end-1);
 
-mdl = fitcknn(training_features, training_class_labels,'NumNeighbors',3000);
 predict_valid = predict(mdl, val_features);
 
 num_correct_val = 0;
@@ -21,13 +22,21 @@ for i = 1:length(predict_valid)
     end
 end
 
-% validation accuracy = 83.7594%
+% validation accuracy = 88.6176%
 validation_accuracy = (num_correct_val/length(val_class_labels))*100  
+
+num_positive_valid = sum(predict_valid(:) == 1);
+true_positive_validation = sum(val_class_labels(:) == 1);
+sensitivity_validation = true_positive_validation/num_positive_valid
+
+num_negative_valid = sum(predict_valid(:) == 0);
+true_negative_validation = sum(val_class_labels(:) == 0);
+specificity_validation = true_negative_validation/num_negative_valid
+
+% predicting test set -----------------------------------------------------
 
 test_set = csvread('test.csv',1,1);
 test_class_labels = test_set(:,end);
-over30_test = test_class_labels(:) == 2;
-test_class_labels(over30_test) = 0;
 test_features = test_set(:,1:end-1);
 
 predict_test = predict(mdl, test_features);
@@ -39,8 +48,10 @@ for i = 1:length(predict_test)
     end
 end
 
-% testing_accuracy = 83.3254
+% testing_accuracy = 89.1271%
 testing_accuracy = (num_correct_test/length(test_features))*100  % validation accuracy = 73.1735%
+
+true_positive_test = sum(test_class_labels(:) == 1);
 
 % i was trying something new so i split the training set into groups
 % according to the class labels
