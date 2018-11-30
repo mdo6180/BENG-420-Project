@@ -1,0 +1,32 @@
+% emergency_inpatient = training_set(:,[3:4 end]);
+% not_readmitted_idx = emergency_inpatient(:,end) == 0;
+% under30_idx = emergency_inpatient(:,end) == 1;
+% over30_idx = emergency_inpatient(:,end) == 2;
+% 
+% not_readmitted = emergency_inpatient(not_readmitted_idx,:);
+% under30 = emergency_inpatient(under30_idx,:);
+% over30 = emergency_inpatient(over30_idx,:);
+% 
+% figure(1)
+% scatter(not_readmitted(:,1), not_readmitted(:,2), 'gx')
+% hold on
+% scatter(under30(:,1), under30(:,2), 'bo')
+% hold on
+% scatter(over30(:,1), over30(:,2), 'r+')
+% 
+% 
+% emergency_inpatient = training_set(:,[3:5 end]);
+% not_readmitted_idx = emergency_inpatient(:,end) == 0;
+% under30_idx = emergency_inpatient(:,end) == 1;
+% over30_idx = emergency_inpatient(:,end) == 2;
+% 
+% not_readmitted = emergency_inpatient(not_readmitted_idx,:);
+% under30 = emergency_inpatient(under30_idx,:);
+% over30 = emergency_inpatient(over30_idx,:);
+% 
+% figure(2)
+% scatter3(not_readmitted(:,1), not_readmitted(:,2), not_readmitted(:,3), 'gx')
+% hold on
+% scatter3(under30(:,1), under30(:,2), under30(:,3), 'bo')
+% hold on
+% scatter3(over30(:,1), over30(:,2), over30(:,3), 'r+')

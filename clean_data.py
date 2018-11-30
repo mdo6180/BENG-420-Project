@@ -28,7 +28,7 @@ def rename(dict):
 				'number_emergency': int(dict['number_emergency']),
 				'number_inpatient': int(dict['number_inpatient']),
 				'diabetesMed': diabetesMed.index(dict['diabetesMed']),
-				'readmitted': readmitted.index(dict['readmitted'])}
+				'readmitted': 1 if dict['readmitted'] == '<30' else 0}
 	else: 
 		return None
 	
