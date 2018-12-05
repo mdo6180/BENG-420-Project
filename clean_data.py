@@ -50,7 +50,7 @@ print("size of training set = %d" % len(training_set))
 print("size of validation set = %d" % len(validation_set))
 print("size of test set = %d" % len(test_set))
 
-
+'''
 # creating the cleaned dataset
 with open('./cleaned.csv', 'w', newline = '') as trainfile:
 	header = ['encounter_id','race','gender','age','number_emergency','number_inpatient','diabetesMed','readmitted']
@@ -90,3 +90,4 @@ with open('./test.csv', 'w', newline = '') as testfile:
 	
 	for i in test_set:
 		writer.writerow(i)
+'''
